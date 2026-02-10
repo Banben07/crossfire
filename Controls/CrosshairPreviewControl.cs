@@ -3,7 +3,9 @@ using System.Windows;
 using System.Windows.Media;
 using CrossfireCrosshair.Models;
 using WpfColor = System.Windows.Media.Color;
+using WpfColorConverter = System.Windows.Media.ColorConverter;
 using WpfPen = System.Windows.Media.Pen;
+using WpfPoint = System.Windows.Point;
 
 namespace CrossfireCrosshair.Controls;
 
@@ -83,7 +85,7 @@ public sealed class CrosshairPreviewControl : FrameworkElement
         double dotSize = Math.Max(0.0, profile.DotSize);
         double outlineThickness = Math.Max(0.0, profile.OutlineThickness);
 
-        Point center = new((ActualWidth / 2.0) + profile.OffsetX, (ActualHeight / 2.0) + profile.OffsetY);
+        WpfPoint center = new((ActualWidth / 2.0) + profile.OffsetX, (ActualHeight / 2.0) + profile.OffsetY);
 
         SolidColorBrush mainBrush = new(mainColor);
         mainBrush.Freeze();
@@ -180,8 +182,8 @@ public sealed class CrosshairPreviewControl : FrameworkElement
         WpfPen mainPen,
         WpfPen? outlinePen)
     {
-        Point start = new(x1, y1);
-        Point end = new(x2, y2);
+        WpfPoint start = new(x1, y1);
+        WpfPoint end = new(x2, y2);
 
         if (outlinePen is not null)
         {
@@ -195,7 +197,7 @@ public sealed class CrosshairPreviewControl : FrameworkElement
     {
         try
         {
-            object? parsed = ColorConverter.ConvertFromString(hex ?? string.Empty);
+            object? parsed = WpfColorConverter.ConvertFromString(hex ?? string.Empty);
             if (parsed is WpfColor color)
             {
                 return color;

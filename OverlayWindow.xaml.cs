@@ -4,6 +4,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using CrossfireCrosshair.Models;
 using CrossfireCrosshair.Services;
+using WpfPoint = System.Windows.Point;
 
 namespace CrossfireCrosshair;
 
@@ -32,8 +33,8 @@ public partial class OverlayWindow : Window
         Screen screen = screens[targetMonitorIndex];
 
         Matrix transform = PresentationSource.FromVisual(this)?.CompositionTarget?.TransformFromDevice ?? Matrix.Identity;
-        Point topLeft = transform.Transform(new Point(screen.Bounds.Left, screen.Bounds.Top));
-        Point bottomRight = transform.Transform(new Point(screen.Bounds.Right, screen.Bounds.Bottom));
+        WpfPoint topLeft = transform.Transform(new WpfPoint(screen.Bounds.Left, screen.Bounds.Top));
+        WpfPoint bottomRight = transform.Transform(new WpfPoint(screen.Bounds.Right, screen.Bounds.Bottom));
 
         Left = topLeft.X;
         Top = topLeft.Y;

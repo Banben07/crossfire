@@ -512,7 +512,12 @@ public partial class MainWindow : Window
     {
         if (Settings.Profiles.Count <= 1)
         {
-            MessageBox.Show(this, "At least one profile must remain.", "Delete Profile", MessageBoxButton.OK, MessageBoxImage.Information);
+            System.Windows.MessageBox.Show(
+                this,
+                "At least one profile must remain.",
+                "Delete Profile",
+                System.Windows.MessageBoxButton.OK,
+                System.Windows.MessageBoxImage.Information);
             return;
         }
 
@@ -528,14 +533,14 @@ public partial class MainWindow : Window
 
     private void ResetPresets_Click(object sender, RoutedEventArgs e)
     {
-        MessageBoxResult result = MessageBox.Show(
+        System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show(
             this,
             "Replace all profiles with default preset pack?",
             "Reset Presets",
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Question);
+            System.Windows.MessageBoxButton.YesNo,
+            System.Windows.MessageBoxImage.Question);
 
-        if (result != MessageBoxResult.Yes)
+        if (result != System.Windows.MessageBoxResult.Yes)
         {
             return;
         }
@@ -576,7 +581,7 @@ public partial class MainWindow : Window
         try
         {
             string code = _profileShareService.Export(CurrentProfile);
-            Clipboard.SetText(code);
+            System.Windows.Clipboard.SetText(code);
             ShareCodeStatusText.Text = $"Share code copied for profile: {CurrentProfile.Name}";
         }
         catch (Exception ex)
@@ -589,7 +594,7 @@ public partial class MainWindow : Window
     {
         try
         {
-            string code = Clipboard.GetText();
+            string code = System.Windows.Clipboard.GetText();
             ImportShareCode(code);
         }
         catch (Exception ex)

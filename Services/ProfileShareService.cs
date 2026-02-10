@@ -1,3 +1,4 @@
+using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
@@ -136,7 +137,7 @@ public sealed class ProfileShareService
     private static byte[] Decompress(byte[] data, int maxOutputBytes)
     {
         using MemoryStream input = new(data);
-        using GZipStream gzip = new(input, CompressionMode.Decompress);
+        using GZipStream gzip = new(input, CompressionMode.Decompress, leaveOpen: false);
         using MemoryStream output = new();
         byte[] buffer = new byte[4096];
         int total = 0;
