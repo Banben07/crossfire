@@ -2,6 +2,8 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using CrossfireCrosshair.Models;
+using WpfColor = System.Windows.Media.Color;
+using WpfPen = System.Windows.Media.Pen;
 
 namespace CrossfireCrosshair.Controls;
 
@@ -72,8 +74,8 @@ public sealed class CrosshairPreviewControl : FrameworkElement
 
     private void DrawCrosshair(DrawingContext drawingContext, CrosshairProfile profile)
     {
-        Color mainColor = WithOpacity(ParseColor(profile.ColorHex, Colors.Lime), profile.Opacity);
-        Color outlineColor = WithOpacity(ParseColor(profile.OutlineColorHex, Colors.Black), profile.Opacity);
+        WpfColor mainColor = WithOpacity(ParseColor(profile.ColorHex, Colors.Lime), profile.Opacity);
+        WpfColor outlineColor = WithOpacity(ParseColor(profile.OutlineColorHex, Colors.Black), profile.Opacity);
 
         double lineThickness = Math.Max(0.5, profile.LineThickness);
         double lineLength = Math.Max(0.0, profile.LineLength);
@@ -85,19 +87,19 @@ public sealed class CrosshairPreviewControl : FrameworkElement
 
         SolidColorBrush mainBrush = new(mainColor);
         mainBrush.Freeze();
-        Pen mainPen = new(mainBrush, lineThickness)
+        WpfPen mainPen = new(mainBrush, lineThickness)
         {
             StartLineCap = PenLineCap.Square,
             EndLineCap = PenLineCap.Square
         };
         mainPen.Freeze();
 
-        Pen? outlinePen = null;
+        WpfPen? outlinePen = null;
         if (profile.ShowOutline && outlineThickness > 0)
         {
             SolidColorBrush outlineBrush = new(outlineColor);
             outlineBrush.Freeze();
-            outlinePen = new Pen(outlineBrush, lineThickness + (outlineThickness * 2.0))
+            outlinePen = new WpfPen(outlineBrush, lineThickness + (outlineThickness * 2.0))
             {
                 StartLineCap = PenLineCap.Square,
                 EndLineCap = PenLineCap.Square
@@ -175,8 +177,8 @@ public sealed class CrosshairPreviewControl : FrameworkElement
         double y1,
         double x2,
         double y2,
-        Pen mainPen,
-        Pen? outlinePen)
+        WpfPen mainPen,
+        WpfPen? outlinePen)
     {
         Point start = new(x1, y1);
         Point end = new(x2, y2);
@@ -189,12 +191,12 @@ public sealed class CrosshairPreviewControl : FrameworkElement
         drawingContext.DrawLine(mainPen, start, end);
     }
 
-    private static Color ParseColor(string? hex, Color fallback)
+    private static WpfColor ParseColor(string? hex, WpfColor fallback)
     {
         try
         {
             object? parsed = ColorConverter.ConvertFromString(hex ?? string.Empty);
-            if (parsed is Color color)
+            if (parsed is WpfColor color)
             {
                 return color;
             }
@@ -206,9 +208,9 @@ public sealed class CrosshairPreviewControl : FrameworkElement
         return fallback;
     }
 
-    private static Color WithOpacity(Color color, double opacity)
+    private static WpfColor WithOpacity(WpfColor color, double opacity)
     {
         byte alpha = (byte)Math.Clamp((int)Math.Round(opacity * 255.0), 0, 255);
-        return Color.FromArgb(alpha, color.R, color.G, color.B);
+        return WpfColor.FromArgb(alpha, color.R, color.G, color.B);
     }
 }
