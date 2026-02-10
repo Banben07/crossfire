@@ -152,6 +152,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
                         <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="配置名称" />
@@ -266,15 +267,28 @@
                                    VerticalAlignment="Center"
                                    Text="{Binding ElementName=ProfilesList, Path=SelectedItem.DynamicSpread, StringFormat=F1}" />
 
-                        <TextBlock Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" Text="不透明度" />
+                        <TextBlock Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" Text="按键扩散增量" />
                         <Slider Grid.Row="9"
+                                Grid.Column="1"
+                                Margin="0,2,8,8"
+                                Minimum="0"
+                                Maximum="20"
+                                TickFrequency="0.5"
+                                Value="{Binding ElementName=ProfilesList, Path=SelectedItem.KeyPressSpreadAmount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Grid.Row="9"
+                                   Grid.Column="2"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding ElementName=ProfilesList, Path=SelectedItem.KeyPressSpreadAmount, StringFormat=F1}" />
+
+                        <TextBlock Grid.Row="10" Grid.Column="0" VerticalAlignment="Center" Text="不透明度" />
+                        <Slider Grid.Row="10"
                                 Grid.Column="1"
                                 Margin="0,2,8,0"
                                 Minimum="0.1"
                                 Maximum="1.0"
                                 TickFrequency="0.01"
                                 Value="{Binding ElementName=ProfilesList, Path=SelectedItem.Opacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Grid.Row="9"
+                        <TextBlock Grid.Row="10"
                                    Grid.Column="2"
                                    VerticalAlignment="Center"
                                    Text="{Binding ElementName=ProfilesList, Path=SelectedItem.Opacity, StringFormat=F2}" />
@@ -295,6 +309,9 @@
                         <CheckBox Margin="0,0,16,8"
                                   Content="T 形准星（隐藏上方）"
                                   IsChecked="{Binding ElementName=ProfilesList, Path=SelectedItem.TStyle, Mode=TwoWay}" />
+                        <CheckBox Margin="0,0,16,8"
+                                  Content="按键触发扩散（WASD/方向键/空格）"
+                                  IsChecked="{Binding ElementName=ProfilesList, Path=SelectedItem.KeyPressSpreadEnabled, Mode=TwoWay}" />
                     </WrapPanel>
                 </GroupBox>
 

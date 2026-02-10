@@ -35,7 +35,9 @@ public sealed class ProfileShareService
             Opacity = profile.Opacity,
             OffsetX = profile.OffsetX,
             OffsetY = profile.OffsetY,
-            DynamicSpread = profile.DynamicSpread
+            DynamicSpread = profile.DynamicSpread,
+            KeyPressSpreadEnabled = profile.KeyPressSpreadEnabled,
+            KeyPressSpreadAmount = profile.KeyPressSpreadAmount
         };
 
         string json = JsonSerializer.Serialize(payload, _jsonOptions);
@@ -119,7 +121,9 @@ public sealed class ProfileShareService
             Opacity = Math.Clamp(payload.Opacity, 0.1, 1.0),
             OffsetX = Math.Clamp(payload.OffsetX, -120, 120),
             OffsetY = Math.Clamp(payload.OffsetY, -120, 120),
-            DynamicSpread = Math.Clamp(payload.DynamicSpread, 0, 20)
+            DynamicSpread = Math.Clamp(payload.DynamicSpread, 0, 20),
+            KeyPressSpreadEnabled = payload.KeyPressSpreadEnabled,
+            KeyPressSpreadAmount = Math.Clamp(payload.KeyPressSpreadAmount, 0, 20)
         };
     }
 
@@ -259,5 +263,7 @@ public sealed class ProfileShareService
         public double OffsetX { get; set; }
         public double OffsetY { get; set; }
         public double DynamicSpread { get; set; }
+        public bool KeyPressSpreadEnabled { get; set; }
+        public double KeyPressSpreadAmount { get; set; } = 3;
     }
 }

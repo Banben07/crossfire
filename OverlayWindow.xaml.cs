@@ -21,6 +21,11 @@ public partial class OverlayWindow : Window
         OverlayCrosshair.InvalidateVisual();
     }
 
+    public void SetTemporarySpread(double spread)
+    {
+        OverlayCrosshair.TemporarySpread = Math.Max(0.0, spread);
+    }
+
     public void ApplyMonitor(int targetMonitorIndex)
     {
         Screen[] screens = Screen.AllScreens;

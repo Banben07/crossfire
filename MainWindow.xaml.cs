@@ -16,6 +16,7 @@ public partial class MainWindow : Window
 {
     private const int ToggleOverlayHotkeyId = 0xA111;
     private const int CycleProfileHotkeyId = 0xA112;
+    private static readonly int[] DynamicSpreadKeys = [0x57, 0x41, 0x53, 0x44, 0x26, 0x25, 0x28, 0x27, 0x20];
 
     private readonly SettingsService _settingsService;
     private readonly AutoStartService _autoStartService;
@@ -23,12 +24,14 @@ public partial class MainWindow : Window
     private readonly OverlayWindow _overlayWindow;
     private readonly Forms.NotifyIcon _notifyIcon;
     private readonly DispatcherTimer _saveTimer;
+    private readonly DispatcherTimer _inputSpreadTimer;
     private readonly Dictionary<CrosshairProfile, PropertyChangedEventHandler> _profileSubscriptions = [];
     private HwndSource? _hwndSource;
     private string _hotkeyWarning = string.Empty;
     private string _startupWarning = string.Empty;
     private bool _isApplyingStartupSetting;
     private bool _trayHintShown;
+    private double _currentTemporarySpread;
 
     public ObservableCollection<Key> AvailableKeys { get; } = [];
     public ObservableCollection<MonitorOption> AvailableMonitors { get; } = [];
@@ -62,6 +65,9 @@ public partial class MainWindow : Window
             _settingsService.Save(Settings);
         };
 
+        _inputSpreadTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(16) };
+        _inputSpreadTimer.Tick += (_, _) => UpdateTemporarySpread(forceUpdate: false);
+
         Loaded += OnLoaded;
         Closing += OnClosing;
         StateChanged += OnWindowStateChanged;
@@ -78,6 +84,7 @@ public partial class MainWindow : Window
         UpdateHotkeySummary();
         UpdateStatusText();
         ShareCodeStatusText.Text = "可将当前配置复制为分享码，并在其他设备导入。";
+        _inputSpreadTimer.Start();
     }
 
     private void OnClosing(object? sender, CancelEventArgs e)
@@ -90,6 +97,7 @@ public partial class MainWindow : Window
             _hwndSource = null;
         }
 
+        _inputSpreadTimer.Stop();
         _settingsService.Save(Settings);
         _notifyIcon.Visible = false;
         _notifyIcon.Dispose();
@@ -391,11 +399,44 @@ public partial class MainWindow : Window
             }
 
             _overlayWindow.ApplyMonitor(Settings.TargetMonitorIndex);
+            UpdateTemporarySpread(forceUpdate: true);
         }
         else if (_overlayWindow.IsVisible)
         {
+            _currentTemporarySpread = 0;
+            _overlayWindow.SetTemporarySpread(0);
             _overlayWindow.Hide();
         }
+    }
+
+    private void UpdateTemporarySpread(bool forceUpdate)
+    {
+        double temporarySpread = 0;
+        if (Settings.OverlayEnabled && CurrentProfile is { KeyPressSpreadEnabled: true } profile && IsAnyDynamicSpreadKeyPressed())
+        {
+            temporarySpread = Math.Max(0, profile.KeyPressSpreadAmount);
+        }
+
+        if (!forceUpdate && Math.Abs(temporarySpread - _currentTemporarySpread) < 0.001)
+        {
+            return;
+        }
+
+        _currentTemporarySpread = temporarySpread;
+        _overlayWindow.SetTemporarySpread(temporarySpread);
+    }
+
+    private static bool IsAnyDynamicSpreadKeyPressed()
+    {
+        foreach (int virtualKey in DynamicSpreadKeys)
+        {
+            if ((NativeMethods.GetAsyncKeyState(virtualKey) & 0x8000) != 0)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void UpdateHotkeySummary()

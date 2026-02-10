@@ -18,6 +18,8 @@ public sealed class CrosshairProfile : ObservableObject
     private double _offsetX;
     private double _offsetY;
     private double _dynamicSpread;
+    private bool _keyPressSpreadEnabled;
+    private double _keyPressSpreadAmount = 3.0;
 
     public string Name
     {
@@ -115,6 +117,18 @@ public sealed class CrosshairProfile : ObservableObject
         set => SetProperty(ref _dynamicSpread, value);
     }
 
+    public bool KeyPressSpreadEnabled
+    {
+        get => _keyPressSpreadEnabled;
+        set => SetProperty(ref _keyPressSpreadEnabled, value);
+    }
+
+    public double KeyPressSpreadAmount
+    {
+        get => _keyPressSpreadAmount;
+        set => SetProperty(ref _keyPressSpreadAmount, value);
+    }
+
     public CrosshairProfile Clone()
     {
         return new CrosshairProfile
@@ -134,7 +148,9 @@ public sealed class CrosshairProfile : ObservableObject
             Opacity = Opacity,
             OffsetX = OffsetX,
             OffsetY = OffsetY,
-            DynamicSpread = DynamicSpread
+            DynamicSpread = DynamicSpread,
+            KeyPressSpreadEnabled = KeyPressSpreadEnabled,
+            KeyPressSpreadAmount = KeyPressSpreadAmount
         };
     }
 }

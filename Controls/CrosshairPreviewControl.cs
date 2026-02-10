@@ -17,12 +17,24 @@ public sealed class CrosshairPreviewControl : FrameworkElement
         typeof(CrosshairPreviewControl),
         new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender, OnProfileChanged));
 
+    public static readonly DependencyProperty TemporarySpreadProperty = DependencyProperty.Register(
+        nameof(TemporarySpread),
+        typeof(double),
+        typeof(CrosshairPreviewControl),
+        new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.AffectsRender));
+
     private CrosshairProfile? _observedProfile;
 
     public CrosshairProfile? Profile
     {
         get => (CrosshairProfile?)GetValue(ProfileProperty);
         set => SetValue(ProfileProperty, value);
+    }
+
+    public double TemporarySpread
+    {
+        get => (double)GetValue(TemporarySpreadProperty);
+        set => SetValue(TemporarySpreadProperty, value);
     }
 
     protected override void OnRender(DrawingContext drawingContext)
@@ -33,7 +45,7 @@ public sealed class CrosshairPreviewControl : FrameworkElement
             return;
         }
 
-        DrawCrosshair(drawingContext, Profile);
+        DrawCrosshair(drawingContext, Profile, TemporarySpread);
     }
 
     private static void OnProfileChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -74,14 +86,14 @@ public sealed class CrosshairPreviewControl : FrameworkElement
         InvalidateVisual();
     }
 
-    private void DrawCrosshair(DrawingContext drawingContext, CrosshairProfile profile)
+    private void DrawCrosshair(DrawingContext drawingContext, CrosshairProfile profile, double temporarySpread)
     {
         WpfColor mainColor = WithOpacity(ParseColor(profile.ColorHex, Colors.Lime), profile.Opacity);
         WpfColor outlineColor = WithOpacity(ParseColor(profile.OutlineColorHex, Colors.Black), profile.Opacity);
 
         double lineThickness = Math.Max(0.5, profile.LineThickness);
         double lineLength = Math.Max(0.0, profile.LineLength);
-        double gap = profile.Gap + profile.DynamicSpread;
+        double gap = profile.Gap + profile.DynamicSpread + Math.Max(0.0, temporarySpread);
         double dotSize = Math.Max(0.0, profile.DotSize);
         double outlineThickness = Math.Max(0.0, profile.OutlineThickness);
 

@@ -19,6 +19,7 @@ Windows desktop crosshair overlay for FPS games that do not offer custom crossha
   - opacity
   - screen offsets
   - dynamic spread value
+  - optional temporary spread while holding `WASD`, arrow keys, or `Space`
   - hex color + color picker
 - Global hotkeys:
   - toggle overlay

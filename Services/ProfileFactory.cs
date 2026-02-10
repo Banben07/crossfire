@@ -33,7 +33,9 @@ public static class ProfileFactory
             Opacity = 1,
             OffsetX = 0,
             OffsetY = 0,
-            DynamicSpread = 0
+            DynamicSpread = 0,
+            KeyPressSpreadEnabled = false,
+            KeyPressSpreadAmount = 3
         };
     }
 
@@ -56,7 +58,9 @@ public static class ProfileFactory
             Opacity = 0.95,
             OffsetX = 0,
             OffsetY = 0,
-            DynamicSpread = 0
+            DynamicSpread = 0,
+            KeyPressSpreadEnabled = false,
+            KeyPressSpreadAmount = 3
         };
     }
 
@@ -79,7 +83,9 @@ public static class ProfileFactory
             Opacity = 1,
             OffsetX = 0,
             OffsetY = 0,
-            DynamicSpread = 0
+            DynamicSpread = 0,
+            KeyPressSpreadEnabled = false,
+            KeyPressSpreadAmount = 3
         };
     }
 }

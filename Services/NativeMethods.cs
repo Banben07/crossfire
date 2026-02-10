@@ -42,4 +42,7 @@ internal static class NativeMethods
         int cx,
         int cy,
         uint uFlags);
+
+    [DllImport("user32.dll")]
+    public static extern short GetAsyncKeyState(int vKey);
 }
