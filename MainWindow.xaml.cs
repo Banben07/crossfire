@@ -77,7 +77,7 @@ public partial class MainWindow : Window
         ApplyOverlayState();
         UpdateHotkeySummary();
         UpdateStatusText();
-        ShareCodeStatusText.Text = "Copy current profile as a share code, then import it on another machine.";
+        ShareCodeStatusText.Text = "可将当前配置复制为分享码，并在其他设备导入。";
     }
 
     private void OnClosing(object? sender, CancelEventArgs e)
@@ -106,17 +106,17 @@ public partial class MainWindow : Window
         };
 
         Forms.ContextMenuStrip menu = new();
-        Forms.ToolStripMenuItem openItem = new("Open Control Panel");
+        Forms.ToolStripMenuItem openItem = new("打开控制面板");
         openItem.Click += (_, _) => Dispatcher.Invoke(RestoreFromTray);
         menu.Items.Add(openItem);
 
-        Forms.ToolStripMenuItem toggleOverlayItem = new("Toggle Overlay");
+        Forms.ToolStripMenuItem toggleOverlayItem = new("切换准星叠加");
         toggleOverlayItem.Click += (_, _) => Dispatcher.Invoke(() => Settings.OverlayEnabled = !Settings.OverlayEnabled);
         menu.Items.Add(toggleOverlayItem);
 
         menu.Items.Add(new Forms.ToolStripSeparator());
 
-        Forms.ToolStripMenuItem exitItem = new("Exit");
+        Forms.ToolStripMenuItem exitItem = new("退出");
         exitItem.Click += (_, _) => Dispatcher.Invoke(() => Close());
         menu.Items.Add(exitItem);
 
@@ -296,7 +296,7 @@ public partial class MainWindow : Window
 
         if (!toggleOk || !cycleOk)
         {
-            _hotkeyWarning = "Some hotkeys could not be registered. Change hotkeys or close conflicting apps.";
+            _hotkeyWarning = "部分热键注册失败，请修改热键或关闭冲突软件。";
         }
         else
         {
@@ -401,13 +401,13 @@ public partial class MainWindow : Window
     private void UpdateHotkeySummary()
     {
         HotkeyText.Text =
-            $"Toggle: {Settings.ToggleOverlayHotkey.ToDisplayString()}\n" +
-            $"Cycle: {Settings.CycleProfileHotkey.ToDisplayString()}";
+            $"开关叠加：{Settings.ToggleOverlayHotkey.ToDisplayString()}\n" +
+            $"轮换配置：{Settings.CycleProfileHotkey.ToDisplayString()}";
     }
 
     private void UpdateStatusText()
     {
-        string overlayState = Settings.OverlayEnabled ? "Overlay: enabled" : "Overlay: disabled";
+        string overlayState = Settings.OverlayEnabled ? "叠加状态：已启用" : "叠加状态：已禁用";
         List<string> lines = [overlayState];
         if (!string.IsNullOrWhiteSpace(_hotkeyWarning))
         {
@@ -431,7 +431,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        _startupWarning = $"Startup setting failed: {error}";
+        _startupWarning = $"开机自启设置失败：{error}";
         _isApplyingStartupSetting = true;
         Settings.StartWithWindows = _autoStartService.IsEnabled();
         _isApplyingStartupSetting = false;
@@ -446,7 +446,7 @@ public partial class MainWindow : Window
         if (showHint && !_trayHintShown)
         {
             _notifyIcon.BalloonTipTitle = "CrossfireCrosshair";
-            _notifyIcon.BalloonTipText = "App is running in tray. Double-click the tray icon to restore.";
+            _notifyIcon.BalloonTipText = "程序已在托盘运行，双击托盘图标可恢复窗口。";
             _notifyIcon.ShowBalloonTip(1800);
             _trayHintShown = true;
         }
@@ -490,7 +490,7 @@ public partial class MainWindow : Window
     private void AddProfile_Click(object sender, RoutedEventArgs e)
     {
         CrosshairProfile profile = CurrentProfile?.Clone() ?? ProfileFactory.CreateCsStyle();
-        profile.Name = BuildUniqueProfileName("New Profile");
+        profile.Name = BuildUniqueProfileName("新配置");
         Settings.Profiles.Add(profile);
         Settings.SelectedProfileIndex = Settings.Profiles.Count - 1;
     }
@@ -503,7 +503,7 @@ public partial class MainWindow : Window
         }
 
         CrosshairProfile copy = CurrentProfile.Clone();
-        copy.Name = BuildUniqueProfileName($"{CurrentProfile.Name} Copy");
+        copy.Name = BuildUniqueProfileName($"{CurrentProfile.Name} 副本");
         Settings.Profiles.Add(copy);
         Settings.SelectedProfileIndex = Settings.Profiles.Count - 1;
     }
@@ -514,8 +514,8 @@ public partial class MainWindow : Window
         {
             System.Windows.MessageBox.Show(
                 this,
-                "At least one profile must remain.",
-                "Delete Profile",
+                "至少需要保留一个配置档。",
+                "删除配置档",
                 System.Windows.MessageBoxButton.OK,
                 System.Windows.MessageBoxImage.Information);
             return;
@@ -535,8 +535,8 @@ public partial class MainWindow : Window
     {
         System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show(
             this,
-            "Replace all profiles with default preset pack?",
-            "Reset Presets",
+            "确定要用默认预设替换所有配置档吗？",
+            "重置预设",
             System.Windows.MessageBoxButton.YesNo,
             System.Windows.MessageBoxImage.Question);
 
@@ -574,7 +574,7 @@ public partial class MainWindow : Window
     {
         if (CurrentProfile is null)
         {
-            ShareCodeStatusText.Text = "No profile selected.";
+            ShareCodeStatusText.Text = "当前没有选中的配置档。";
             return;
         }
 
@@ -582,11 +582,11 @@ public partial class MainWindow : Window
         {
             string code = _profileShareService.Export(CurrentProfile);
             System.Windows.Clipboard.SetText(code);
-            ShareCodeStatusText.Text = $"Share code copied for profile: {CurrentProfile.Name}";
+            ShareCodeStatusText.Text = $"已复制分享码：{CurrentProfile.Name}";
         }
         catch (Exception ex)
         {
-            ShareCodeStatusText.Text = $"Failed to copy share code: {ex.Message}";
+            ShareCodeStatusText.Text = $"复制分享码失败：{ex.Message}";
         }
     }
 
@@ -599,7 +599,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            ShareCodeStatusText.Text = $"Failed to read clipboard: {ex.Message}";
+            ShareCodeStatusText.Text = $"读取剪贴板失败：{ex.Message}";
         }
     }
 
@@ -622,14 +622,14 @@ public partial class MainWindow : Window
     {
         if (!_profileShareService.TryImport(code, out CrosshairProfile? imported, out string? error) || imported is null)
         {
-            ShareCodeStatusText.Text = $"Import failed: {error}";
+            ShareCodeStatusText.Text = $"导入失败：{error}";
             return;
         }
 
         imported.Name = BuildUniqueProfileName(imported.Name);
         Settings.Profiles.Add(imported);
         Settings.SelectedProfileIndex = Settings.Profiles.Count - 1;
-        ShareCodeStatusText.Text = $"Imported profile: {imported.Name}";
+        ShareCodeStatusText.Text = $"导入成功：{imported.Name}";
     }
 
     private void PickMainColor_Click(object sender, RoutedEventArgs e)

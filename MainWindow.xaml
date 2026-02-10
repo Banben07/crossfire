@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:CrossfireCrosshair.Controls"
         mc:Ignorable="d"
-        Title="Crosshair Overlay Tool"
+        Title="准星辅助工具"
         Height="760"
         Width="1120"
         MinHeight="680"
@@ -19,15 +19,15 @@
 
         <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-            <GroupBox Header="Profiles" Margin="0,0,0,10">
+            <GroupBox Header="配置档" Margin="0,0,0,10">
                 <DockPanel Margin="8">
                     <StackPanel DockPanel.Dock="Bottom"
                                 Orientation="Horizontal"
                                 HorizontalAlignment="Right"
                                 Margin="0,8,0,0">
-                        <Button Content="Add" Width="64" Margin="0,0,6,0" Click="AddProfile_Click" />
-                        <Button Content="Copy" Width="64" Margin="0,0,6,0" Click="DuplicateProfile_Click" />
-                        <Button Content="Delete" Width="64" Click="DeleteProfile_Click" />
+                        <Button Content="新增" Width="72" Margin="0,0,6,0" Click="AddProfile_Click" />
+                        <Button Content="复制" Width="72" Margin="0,0,6,0" Click="DuplicateProfile_Click" />
+                        <Button Content="删除" Width="72" Click="DeleteProfile_Click" />
                     </StackPanel>
                     <ListBox x:Name="ProfilesList"
                              MinHeight="250"
@@ -37,13 +37,13 @@
                 </DockPanel>
             </GroupBox>
 
-            <GroupBox Header="Overlay" Margin="0,0,0,10">
+            <GroupBox Header="准星叠加" Margin="0,0,0,10">
                 <StackPanel Margin="8">
-                    <CheckBox Content="Enable overlay"
+                    <CheckBox Content="启用准星叠加"
                               IsChecked="{Binding OverlayEnabled, Mode=TwoWay}"
                               Margin="0,0,0,8" />
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                        <TextBlock Text="Monitor:" VerticalAlignment="Center" />
+                        <TextBlock Text="显示器：" VerticalAlignment="Center" />
                         <ComboBox Margin="8,0,0,0"
                                   Width="220"
                                   DisplayMemberPath="DisplayName"
@@ -52,41 +52,41 @@
                                   SelectedValue="{Binding TargetMonitorIndex, Mode=TwoWay}" />
                     </StackPanel>
                     <WrapPanel Margin="0,0,0,8">
-                        <Button Content="Apply monitor" Width="120" Margin="0,0,8,0" Click="ApplyMonitor_Click" />
-                        <Button Content="Reset presets" Width="120" Click="ResetPresets_Click" />
+                        <Button Content="应用显示器" Width="120" Margin="0,0,8,0" Click="ApplyMonitor_Click" />
+                        <Button Content="重置预设" Width="120" Click="ResetPresets_Click" />
                     </WrapPanel>
-                    <TextBlock x:Name="StatusText" Foreground="#9C4D00" TextWrapping="Wrap" />
+                    <TextBlock x:Name="StatusText" Foreground="{DynamicResource AppWarningBrush}" TextWrapping="Wrap" />
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Header="Startup &amp; Tray" Margin="0,0,0,10">
+            <GroupBox Header="启动与托盘" Margin="0,0,0,10">
                 <StackPanel Margin="8">
-                    <CheckBox Content="Start with Windows (current user)"
+                    <CheckBox Content="开机自启动（当前用户）"
                               Margin="0,0,0,8"
                               IsChecked="{Binding StartWithWindows, Mode=TwoWay}" />
-                    <CheckBox Content="Minimize to system tray"
+                    <CheckBox Content="最小化到系统托盘"
                               Margin="0,0,0,8"
                               IsChecked="{Binding MinimizeToTray, Mode=TwoWay}" />
                     <WrapPanel>
-                        <Button Content="Hide to tray now" Width="140" Click="HideToTray_Click" />
+                        <Button Content="立即隐藏到托盘" Width="140" Click="HideToTray_Click" />
                     </WrapPanel>
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Header="Share Code" Margin="0,0,0,10">
+            <GroupBox Header="分享码" Margin="0,0,0,10">
                 <StackPanel Margin="8">
                     <WrapPanel Margin="0,0,0,8">
-                        <Button Content="Copy current code" Width="132" Margin="0,0,8,0" Click="CopyShareCode_Click" />
-                        <Button Content="Import from clipboard" Width="148" Margin="0,0,8,0" Click="ImportShareCodeFromClipboard_Click" />
-                        <Button Content="Paste code..." Width="96" Click="ImportShareCodeManual_Click" />
+                        <Button Content="复制当前分享码" Width="132" Margin="0,0,8,0" Click="CopyShareCode_Click" />
+                        <Button Content="从剪贴板导入" Width="132" Margin="0,0,8,0" Click="ImportShareCodeFromClipboard_Click" />
+                        <Button Content="手动粘贴..." Width="96" Click="ImportShareCodeManual_Click" />
                     </WrapPanel>
-                    <TextBlock x:Name="ShareCodeStatusText" TextWrapping="Wrap" />
+                    <TextBlock x:Name="ShareCodeStatusText" TextWrapping="Wrap" Foreground="{DynamicResource AppMutedTextBrush}" />
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Header="Global Hotkeys">
+            <GroupBox Header="全局热键">
                 <StackPanel Margin="8">
-                    <TextBlock Text="Toggle Overlay" FontWeight="SemiBold" />
+                    <TextBlock Text="开关叠加" FontWeight="SemiBold" />
                     <WrapPanel Margin="0,4,0,8">
                         <CheckBox Content="Ctrl" Margin="0,0,8,0" IsChecked="{Binding ToggleOverlayHotkey.Ctrl, Mode=TwoWay}" />
                         <CheckBox Content="Alt" Margin="0,0,8,0" IsChecked="{Binding ToggleOverlayHotkey.Alt, Mode=TwoWay}" />
@@ -97,7 +97,7 @@
                                   SelectedItem="{Binding ToggleOverlayHotkey.Key, Mode=TwoWay}" />
                     </WrapPanel>
 
-                    <TextBlock Text="Cycle Profile" FontWeight="SemiBold" />
+                    <TextBlock Text="轮换配置档" FontWeight="SemiBold" />
                     <WrapPanel Margin="0,4,0,8">
                         <CheckBox Content="Ctrl" Margin="0,0,8,0" IsChecked="{Binding CycleProfileHotkey.Ctrl, Mode=TwoWay}" />
                         <CheckBox Content="Alt" Margin="0,0,8,0" IsChecked="{Binding CycleProfileHotkey.Alt, Mode=TwoWay}" />
@@ -108,33 +108,33 @@
                                   SelectedItem="{Binding CycleProfileHotkey.Key, Mode=TwoWay}" />
                     </WrapPanel>
 
-                    <Button Content="Re-register hotkeys" Width="160" Click="ReregisterHotkeys_Click" />
+                    <Button Content="重新注册热键" Width="160" Click="ReregisterHotkeys_Click" />
                     <TextBlock x:Name="HotkeyText" Margin="0,8,0,0" TextWrapping="Wrap" />
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Header="Security Notes" Margin="0,10,0,0">
+            <GroupBox Header="安全说明" Margin="0,10,0,0">
                 <TextBlock Margin="8"
                            TextWrapping="Wrap"
-                           Text="This tool uses only transparent overlay + global hotkeys. It does not inject into game processes, read game memory, or install drivers." />
+                           Text="本工具仅使用透明叠加层与全局热键，不注入游戏进程、不读取游戏内存、不安装驱动。" />
             </GroupBox>
             </StackPanel>
         </ScrollViewer>
 
         <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <GroupBox Header="Preview" Margin="0,0,0,10">
+                <GroupBox Header="预览" Margin="0,0,0,10">
                     <Border Margin="8"
                             Padding="8"
                             CornerRadius="6"
-                            Background="#111111">
+                            Background="#121822">
                         <Grid MinHeight="330">
                             <controls:CrosshairPreviewControl Profile="{Binding ElementName=ProfilesList, Path=SelectedItem}" />
                         </Grid>
                     </Border>
                 </GroupBox>
 
-                <GroupBox Header="Style Basics" Margin="0,0,0,10">
+                <GroupBox Header="基础样式" Margin="0,0,0,10">
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="180" />
@@ -154,14 +154,14 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Profile Name" />
+                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="配置名称" />
                         <TextBox Grid.Row="0"
                                  Grid.Column="1"
                                  Grid.ColumnSpan="2"
                                  Margin="0,2,0,8"
                                  Text="{Binding ElementName=ProfilesList, Path=SelectedItem.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Line Length" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="线长" />
                         <Slider Grid.Row="1"
                                 Grid.Column="1"
                                 Margin="0,2,8,8"
@@ -175,7 +175,7 @@
                                    VerticalAlignment="Center"
                                    Text="{Binding ElementName=ProfilesList, Path=SelectedItem.LineLength, StringFormat=F1}" />
 
-                        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Line Thickness" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="线宽" />
                         <Slider Grid.Row="2"
                                 Grid.Column="1"
                                 Margin="0,2,8,8"
@@ -188,7 +188,7 @@
                                    VerticalAlignment="Center"
                                    Text="{Binding ElementName=ProfilesList, Path=SelectedItem.LineThickness, StringFormat=F1}" />
 
-                        <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Text="Center Gap" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Text="中心间隙" />
                         <Slider Grid.Row="3"
                                 Grid.Column="1"
                                 Margin="0,2,8,8"
@@ -201,7 +201,7 @@
                                    VerticalAlignment="Center"
                                    Text="{Binding ElementName=ProfilesList, Path=SelectedItem.Gap, StringFormat=F1}" />
 
-                        <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Text="Center Dot Size" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Text="中心点大小" />
                         <Slider Grid.Row="4"
                                 Grid.Column="1"
                                 Margin="0,2,8,8"
@@ -214,7 +214,7 @@
                                    VerticalAlignment="Center"
                                    Text="{Binding ElementName=ProfilesList, Path=SelectedItem.DotSize, StringFormat=F1}" />
 
-                        <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Text="Outline Thickness" />
+                        <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Text="描边厚度" />
                         <Slider Grid.Row="5"
                                 Grid.Column="1"
                                 Margin="0,2,8,8"
@@ -227,7 +227,7 @@
                                    VerticalAlignment="Center"
                                    Text="{Binding ElementName=ProfilesList, Path=SelectedItem.OutlineThickness, StringFormat=F1}" />
 
-                        <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Text="Horizontal Offset" />
+                        <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Text="水平偏移" />
                         <Slider Grid.Row="6"
                                 Grid.Column="1"
                                 Margin="0,2,8,8"
@@ -240,7 +240,7 @@
                                    VerticalAlignment="Center"
                                    Text="{Binding ElementName=ProfilesList, Path=SelectedItem.OffsetX, StringFormat=F0}" />
 
-                        <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" Text="Vertical Offset" />
+                        <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" Text="垂直偏移" />
                         <Slider Grid.Row="7"
                                 Grid.Column="1"
                                 Margin="0,2,8,8"
@@ -253,7 +253,7 @@
                                    VerticalAlignment="Center"
                                    Text="{Binding ElementName=ProfilesList, Path=SelectedItem.OffsetY, StringFormat=F0}" />
 
-                        <TextBlock Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Text="Dynamic Spread" />
+                        <TextBlock Grid.Row="8" Grid.Column="0" VerticalAlignment="Center" Text="动态扩散" />
                         <Slider Grid.Row="8"
                                 Grid.Column="1"
                                 Margin="0,2,8,8"
@@ -266,7 +266,7 @@
                                    VerticalAlignment="Center"
                                    Text="{Binding ElementName=ProfilesList, Path=SelectedItem.DynamicSpread, StringFormat=F1}" />
 
-                        <TextBlock Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" Text="Opacity" />
+                        <TextBlock Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" Text="不透明度" />
                         <Slider Grid.Row="9"
                                 Grid.Column="1"
                                 Margin="0,2,8,0"
@@ -281,24 +281,24 @@
                     </Grid>
                 </GroupBox>
 
-                <GroupBox Header="Display Rules" Margin="0,0,0,10">
+                <GroupBox Header="显示规则" Margin="0,0,0,10">
                     <WrapPanel Margin="10">
                         <CheckBox Margin="0,0,16,8"
-                                  Content="Show Lines"
+                                  Content="显示线条"
                                   IsChecked="{Binding ElementName=ProfilesList, Path=SelectedItem.ShowLines, Mode=TwoWay}" />
                         <CheckBox Margin="0,0,16,8"
-                                  Content="Show Center Dot"
+                                  Content="显示中心点"
                                   IsChecked="{Binding ElementName=ProfilesList, Path=SelectedItem.ShowCenterDot, Mode=TwoWay}" />
                         <CheckBox Margin="0,0,16,8"
-                                  Content="Show Outline"
+                                  Content="显示描边"
                                   IsChecked="{Binding ElementName=ProfilesList, Path=SelectedItem.ShowOutline, Mode=TwoWay}" />
                         <CheckBox Margin="0,0,16,8"
-                                  Content="T-Style (hide top)"
+                                  Content="T 形准星（隐藏上方）"
                                   IsChecked="{Binding ElementName=ProfilesList, Path=SelectedItem.TStyle, Mode=TwoWay}" />
                     </WrapPanel>
                 </GroupBox>
 
-                <GroupBox Header="Colors">
+                <GroupBox Header="颜色">
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="190" />
@@ -310,19 +310,19 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Main Color (hex)" />
+                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="主颜色 (hex)" />
                         <TextBox Grid.Row="0"
                                  Grid.Column="1"
                                  Margin="0,0,8,8"
                                  Text="{Binding ElementName=ProfilesList, Path=SelectedItem.ColorHex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <Button Grid.Row="0" Grid.Column="2" Margin="0,0,0,8" Content="Pick..." Click="PickMainColor_Click" />
+                        <Button Grid.Row="0" Grid.Column="2" Margin="0,0,0,8" Content="选择..." Click="PickMainColor_Click" />
 
-                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Outline Color (hex)" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="描边颜色 (hex)" />
                         <TextBox Grid.Row="1"
                                  Grid.Column="1"
                                  Margin="0,0,8,0"
                                  Text="{Binding ElementName=ProfilesList, Path=SelectedItem.OutlineColorHex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <Button Grid.Row="1" Grid.Column="2" Content="Pick..." Click="PickOutlineColor_Click" />
+                        <Button Grid.Row="1" Grid.Column="2" Content="选择..." Click="PickOutlineColor_Click" />
                     </Grid>
                 </GroupBox>
             </StackPanel>

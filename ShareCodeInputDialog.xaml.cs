@@ -18,8 +18,8 @@ public partial class ShareCodeInputDialog : System.Windows.Window
         {
             System.Windows.MessageBox.Show(
                 this,
-                "Please paste a share code first.",
-                "Import Share Code",
+                "请先粘贴分享码。",
+                "导入分享码",
                 System.Windows.MessageBoxButton.OK,
                 System.Windows.MessageBoxImage.Information);
             return;

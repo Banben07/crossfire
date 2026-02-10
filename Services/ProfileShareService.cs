@@ -51,7 +51,7 @@ public sealed class ProfileShareService
 
         if (string.IsNullOrWhiteSpace(shareCode))
         {
-            error = "Share code is empty.";
+            error = "分享码为空。";
             return false;
         }
 
@@ -63,13 +63,13 @@ public sealed class ProfileShareService
 
         if (!TryFromBase64Url(raw, out byte[] compressed))
         {
-            error = "Invalid share code format.";
+            error = "分享码格式无效。";
             return false;
         }
 
         if (compressed.Length > 8192)
         {
-            error = "Share code is too large.";
+            error = "分享码体积过大。";
             return false;
         }
 
@@ -80,7 +80,7 @@ public sealed class ProfileShareService
             ShareProfileV1? payload = JsonSerializer.Deserialize<ShareProfileV1>(json, _jsonOptions);
             if (payload is null || payload.Version != 1)
             {
-                error = "Unsupported share code version.";
+                error = "不支持的分享码版本。";
                 return false;
             }
 
@@ -89,14 +89,14 @@ public sealed class ProfileShareService
         }
         catch (Exception ex)
         {
-            error = $"Failed to decode share code: {ex.Message}";
+            error = $"分享码解析失败：{ex.Message}";
             return false;
         }
     }
 
     private static CrosshairProfile Sanitize(ShareProfileV1 payload)
     {
-        string name = string.IsNullOrWhiteSpace(payload.Name) ? "Imported Profile" : payload.Name.Trim();
+        string name = string.IsNullOrWhiteSpace(payload.Name) ? "导入配置" : payload.Name.Trim();
         if (name.Length > 64)
         {
             name = name[..64];
@@ -153,7 +153,7 @@ public sealed class ProfileShareService
             total += read;
             if (total > maxOutputBytes)
             {
-                throw new InvalidOperationException("Share code payload is too large.");
+                throw new InvalidOperationException("分享码内容过大。");
             }
 
             output.Write(buffer, 0, read);
@@ -243,7 +243,7 @@ public sealed class ProfileShareService
     private sealed class ShareProfileV1
     {
         public int Version { get; set; } = 1;
-        public string Name { get; set; } = "Imported Profile";
+        public string Name { get; set; } = "导入配置";
         public bool ShowLines { get; set; } = true;
         public bool ShowCenterDot { get; set; }
         public bool TStyle { get; set; }

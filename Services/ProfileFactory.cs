@@ -18,7 +18,7 @@ public static class ProfileFactory
     {
         return new CrosshairProfile
         {
-            Name = "CS Style Green",
+            Name = "CS 经典绿色",
             ShowLines = true,
             ShowCenterDot = false,
             TStyle = false,
@@ -41,7 +41,7 @@ public static class ProfileFactory
     {
         return new CrosshairProfile
         {
-            Name = "Valorant Cyan",
+            Name = "瓦罗兰特 青色",
             ShowLines = true,
             ShowCenterDot = true,
             TStyle = false,
@@ -64,7 +64,7 @@ public static class ProfileFactory
     {
         return new CrosshairProfile
         {
-            Name = "Minimal Dot",
+            Name = "极简中心点",
             ShowLines = false,
             ShowCenterDot = true,
             TStyle = false,
