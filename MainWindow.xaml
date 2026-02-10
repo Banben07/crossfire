@@ -55,7 +55,7 @@
                         <Button Content="应用显示器" Width="120" Margin="0,0,8,0" Click="ApplyMonitor_Click" />
                         <Button Content="重置预设" Width="120" Click="ResetPresets_Click" />
                     </WrapPanel>
-                    <TextBlock x:Name="StatusText" Foreground="{DynamicResource AppWarningBrush}" TextWrapping="Wrap" />
+                    <TextBlock x:Name="StatusText" Foreground="#9C4D00" TextWrapping="Wrap" />
                 </StackPanel>
             </GroupBox>
 
@@ -80,7 +80,7 @@
                         <Button Content="从剪贴板导入" Width="132" Margin="0,0,8,0" Click="ImportShareCodeFromClipboard_Click" />
                         <Button Content="手动粘贴..." Width="96" Click="ImportShareCodeManual_Click" />
                     </WrapPanel>
-                    <TextBlock x:Name="ShareCodeStatusText" TextWrapping="Wrap" Foreground="{DynamicResource AppMutedTextBrush}" />
+                    <TextBlock x:Name="ShareCodeStatusText" TextWrapping="Wrap" />
                 </StackPanel>
             </GroupBox>
 
@@ -127,7 +127,7 @@
                     <Border Margin="8"
                             Padding="8"
                             CornerRadius="6"
-                            Background="#121822">
+                            Background="#111111">
                         <Grid MinHeight="330">
                             <controls:CrosshairPreviewControl Profile="{Binding ElementName=ProfilesList, Path=SelectedItem}" />
                         </Grid>
