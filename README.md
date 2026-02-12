@@ -53,7 +53,7 @@ dotnet run
 
 ---
 
-## 分享代码 (Share Code)
+## 分享配置 (Share Code)
 
 * **导出**：在应用中点击 `Copy current code`（复制当前代码）。
 * **导入**：点击 `Import from clipboard`（从剪贴板导入）或 `Paste code...`（粘贴代码）。
