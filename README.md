@@ -1,4 +1,4 @@
-# CrossfireCrosshair
+# CustomCrosshair
 
 Windows desktop crosshair overlay for FPS games that do not offer custom crosshair settings.
 
